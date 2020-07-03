@@ -1,8 +1,9 @@
 package com.company;
 
 import CSVReader.FileRead;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +15,27 @@ public class Main {
     static Map<String, String> map = new HashMap<String, String>(); //assigns each csv to its time stamp
 
     public static void main(String[] args) throws IOException {
+        //updateRepo();
         readFile();
         assignPlaces();
     }
 
+    static void updateRepo() {
+        try {
+            Git git = Git.cloneRepository()
+                    .setURI("https://github.com/CSSEGISandData/COVID-19.git")
+                    .setDirectory(new File("C:\\Users\\david\\Desktop\\Corona_digest\\RAW data"))
+                    .call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+            System.out.println("Could not update from online, please check your internet connection");
+            System.out.println("exiting");
+            System.exit(1);
+        }
+    }
+
     private static void readFile() throws IOException {
-        File dir = new File("RAW data\\COVID-19\\csse_covid_19_data\\csse_covid_19_daily_reports_us");
+        File dir = new File("RAW data\\csse_covid_19_data\\csse_covid_19_daily_reports_us");
 
         File readMe = new File(dir.getCanonicalFile() + "\\README.MD");
         if(readMe.delete()) System.out.println("README.MD deleted successfully");
