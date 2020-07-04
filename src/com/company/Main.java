@@ -92,7 +92,7 @@ public class Main {
         String entry;
         while (true) {
             entry = reader.getNextValue();
-            if(entry.equals("\0")) break; //if our reader returns null, then the reader closed its stream and nothing left is to be read
+            if(entry.equals("\n")) break; //if our reader returns null, then the reader closed its stream and nothing left is to be read
 
             //following code is a bit messy, but I dont know any better way to go at this
             Place p = new Place();
@@ -114,7 +114,7 @@ public class Main {
             p.setISO3(reader.getNextValue());
             p.setTesting_Rate(reader.getNextValue());
             p.setHospitalization_Rate(reader.getNextValue());
-            System.out.println(p.toString());
+            //System.out.println(p.toString());
 
             areas.add(p);
         }
@@ -143,14 +143,16 @@ public class Main {
                 while (true) {
                     value = br.read();
                     char c = (char)value;
+                    System.out.println(sb.toString());
                     if (c == ',' || c == '\n') {
                         break;
                     }
-                    if(c == '\0') {
+                    if(value == -1) {
+                        System.out.println("End of stream");
                         br.close();
                         return "\n";
                     }
-                    sb.append(c);
+                    sb. append(c);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
