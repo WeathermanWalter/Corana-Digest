@@ -2,96 +2,101 @@ package com.company;
 
 
 public class Place {
-    static String Province_State;
-    static String Country_Region;
-    static String Last_Update;
-    static double Lat;
-    static double Long_;
-    static int Confirmed;
-    static int Deaths;
-    static int Recovered;
-    static double Active;
-    static int FIPS;
-    static double Incident_Rate;
-    static int People_Tested;
-    static int People_Hospitalized;
-    static double Mortality_Rate;
-    static int UID;
-    static String ISO3;
-    static double Testing_Rate;
-    static double Hospitalization_Rate;
+    String file;
+    String Province_State;
+    String Country_Region;
+    String Last_Update;
+    double Lat;
+    double Long_;
+    int Confirmed;
+    int Deaths;
+    int Recovered;
+    double Active;
+    int FIPS;
+    double Incident_Rate;
+    int People_Tested;
+    int People_Hospitalized;
+    double Mortality_Rate;
+    int UID;
+    String ISO3;
+    double Testing_Rate;
+    double Hospitalization_Rate;
 
     //TODO store historic values using ArrayLists
 
-    static void setProvince_State(String i) {
+    void setFile(String i) {
+        file = i;
+    }
+
+    void setProvince_State(String i) {
         Province_State = i;
     }
 
-    static void setCountry_Region(String i) {
+    void setCountry_Region(String i) {
         Country_Region = i;
     }
 
-    static void setLast_Update(String i) {
+    void setLast_Update(String i) {
         Last_Update = i;
     }
 
-    static void setLat(String i) {
+    void setLat(String i) {
         Lat = checkDouble(i);
     }
 
-    static void setLong_(String i) {
+    void setLong_(String i) {
         Long_ = checkDouble(i);
     }
 
-    static void setConfirmed(String i) {
+    void setConfirmed(String i) {
         Confirmed = checkInt(i);
     }
 
-    static void setDeaths(String i) {
+    void setDeaths(String i) {
         Deaths = checkInt(i);
     }
 
-    static void setRecovered(String i) {
+    void setRecovered(String i) {
         Recovered = checkInt(i);
     }
 
-    static void setActive(String i) {
+    void setActive(String i) {
         Active = checkDouble(i);
     }
 
-    static void setFIPS(String i) {
+    void setFIPS(String i) {
         FIPS = checkInt(i);
     }
 
-    static void setIncident_Rate(String i) {
+    void setIncident_Rate(String i) {
         Incident_Rate = checkDouble(i);
     }
 
-    static void setPeople_Tested(String i) {
+    void setPeople_Tested(String i) {
         People_Tested = checkInt(i);
     }
 
-    static void setPeople_Hospitalized(String i) {
+    void setPeople_Hospitalized(String i) {
         People_Hospitalized = checkInt(i);
     }
 
-    static void setMortality_Rate(String i) {
+    void setMortality_Rate(String i) {
         Mortality_Rate = checkDouble(i);
     }
 
-    static void setUID(String i) {
-        UID = checkInt(i);
+    void setUID(String i) {
+        UID = (int)checkDouble(i);
     }
 
-    static void setISO3(String i) {
+    void setISO3(String i) {
         ISO3 = i;
     }
 
-    static void setTesting_Rate(String i) {
+    void setTesting_Rate(String i) {
         Testing_Rate = checkDouble(i);
     }
 
-    static void setHospitalization_Rate(String i) {
+    void setHospitalization_Rate(String i) {
         Hospitalization_Rate = checkDouble(i);
     }
 
@@ -107,81 +112,86 @@ public class Place {
 
     //--------------------------------------------------------------------------
 
-    static String getProvince_State() {
+    String getFile() {
+        return file;
+    }
+
+    String getProvince_State() {
         return Province_State;
     }
 
-    static String getCountry_Region() {
+    String getCountry_Region() {
         return Country_Region;
     }
 
-    static String getLast_Update() {
+    String getLast_Update() {
         return Last_Update;
     }
 
-    static double getLat() {
+    double getLat() {
         return Lat;
     }
 
-    static double getLong_() {
+    double getLong_() {
         return Long_;
     }
 
-    static int getConfirmed() {
+    int getConfirmed() {
         return Confirmed;
     }
 
-    static int getDeaths() {
+    int getDeaths() {
         return Deaths;
     }
 
-    static int getRecovered() {
+    int getRecovered() {
         return Recovered;
     }
 
-    static double getActive() {
+    double getActive() {
         return Active;
     }
 
-    static int getFIPS() {
+    int getFIPS() {
         return FIPS;
     }
 
-    static double getIncident_Rate() {
+    double getIncident_Rate() {
         return Incident_Rate;
     }
 
-    static int getPeople_Tested() {
+    int getPeople_Tested() {
         return People_Tested;
     }
 
-    static int getPeople_Hospitalized() {
+    int getPeople_Hospitalized() {
         return People_Hospitalized;
     }
 
-    static double getMortality_Rate() {
+    double getMortality_Rate() {
         return Mortality_Rate;
     }
 
-    static int getUID() {
+    int getUID() {
         return UID;
     }
 
-    static String getISO3() {
+    String getISO3() {
         return ISO3;
     }
 
-    static double getTesting_Rate() {
+    double getTesting_Rate() {
         return Testing_Rate;
     }
 
-    static double getHospitalization_Rate() {
+    double getHospitalization_Rate() {
         return Hospitalization_Rate;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("*********************************");
+        sb.append("\n*********************************");
+        sb.append("\nFrom File " + getFile() + ".cvs");
         sb.append("\nState = " + getProvince_State());
         sb.append("\nCountry = " + getCountry_Region());
         sb.append("\nLast Update = " + getLast_Update());
