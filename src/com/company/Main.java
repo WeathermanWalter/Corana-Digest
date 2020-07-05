@@ -25,7 +25,7 @@ public class Main {
         assignPlaces();
         Place[] historicData = retrieveHistoricData("California");
         String newData = constructCSV(historicData);
-        writeToFile("California.cvs", newData);
+        writeToFile("California.csv", newData);
     }
 
     static void updateRepo() {
@@ -173,9 +173,9 @@ public class Main {
     }
 
     static void writeToFile(String title, String data) {
-        File f = new File("CVSout");
+        File f = new File("CSVout");
         f.mkdir();
-        File nf = new File("CVSout\\" + title);
+        File nf = new File("CSVout\\" + title);
         try {
             FileWriter fw = new FileWriter(nf);
             fw.write(data);
