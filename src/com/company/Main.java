@@ -25,7 +25,7 @@ public class Main {
         assignPlaces();
         Place[] historicData = retrieveHistoricData("California");
         String newData = constructCSV(historicData);
-        System.out.println(newData);
+        writeToFile("California.cvs", newData);
     }
 
     static void updateRepo() {
@@ -170,6 +170,19 @@ public class Main {
         }
         firstLine.append("\n");
         return firstLine.toString() + secondLine.toString();
+    }
+
+    static void writeToFile(String title, String data) {
+        File f = new File("CVSout");
+        f.mkdir();
+        File nf = new File("CVSout\\" + title);
+        try {
+            FileWriter fw = new FileWriter(nf);
+            fw.write(data);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String trimExtension(String input) {
