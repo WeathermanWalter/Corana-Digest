@@ -8,10 +8,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Main {
     static ArrayList<String> dateStamps = new ArrayList<String>();
@@ -25,7 +23,9 @@ public class Main {
         //updateRepo();
         readFile();
         assignPlaces();
-        System.out.println(retrieveHistoricData("Alabama"));
+        Place[] historicData = retrieveHistoricData("California");
+        String newData = constructCSV(historicData);
+        System.out.println(newData);
     }
 
     static void updateRepo() {
@@ -145,18 +145,31 @@ public class Main {
 
     }
 
-    static String retrieveHistoricData(String state) {
-        StringBuilder sb = new StringBuilder();
+    static Place[] retrieveHistoricData(String state) {
+        Place[] stateHistory = new Place[dateStamps.size()];
         for (int i = 0; i < dateStamps.size(); i++) {
             ArrayList<Place> list = history.get(dateStamps.get(i));
             for (int s = 0; s < list.size(); s++) {
                 Place p = list.get(s);
                 if (state.equals(p.getProvince_State())) {
-                    sb.append(p.toString());
+                    stateHistory[i] = p;
                 }
             }
         }
-        return sb.toString();
+        return stateHistory;
+    }
+
+    static String constructCSV(Place... data) {
+        StringBuilder firstLine = new StringBuilder();
+        StringBuilder secondLine = new StringBuilder();
+        firstLine.append(data[0].getFile());
+        secondLine.append(data[0].getConfirmed());
+        for (int i = 1; i < data.length; i++) {
+            firstLine.append("," + data[i].getFile());
+            secondLine.append("," + data[i].getConfirmed());
+        }
+        firstLine.append("\n");
+        return firstLine.toString() + secondLine.toString();
     }
 
     private static String trimExtension(String input) {
