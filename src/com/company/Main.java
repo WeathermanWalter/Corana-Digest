@@ -18,12 +18,14 @@ public class Main {
     static ArrayList<Place> areas = new ArrayList<Place>(58);
     static Map<String, String> map = new HashMap<String, String>(); //assigns each csv to its time stamp
 
+    //String = date
     static HashMap<String, ArrayList<Place>> history = new HashMap<String, ArrayList<Place>>();
 
     public static void main(String[] args) throws IOException {
         //updateRepo();
         readFile();
         assignPlaces();
+        System.out.println(retrieveHistoricData("Alabama"));
     }
 
     static void updateRepo() {
@@ -86,7 +88,7 @@ public class Main {
         for (int i = dateStamps.size() - 1; i >= 0; i--) {
             String date = dateStamps.get(i);
             String buffer = map.get(date);
-            System.out.println(date);
+            //System.out.println(date);
 
 
             CSVReader reader = new CSVReader(buffer);
@@ -133,11 +135,28 @@ public class Main {
         }
 
         //checking if history is correct
-        ArrayList<Place> p = history.get(dateStamps.get(0));
-        for (Place i : p) {
-            System.out.println(p.toString());
+        for (int i = 0; i < history.size(); i++) {
+            //System.out.println(i);
+            ArrayList<Place> list = history.get(dateStamps.get(i));
+            for (Place r : list) {
+                //System.out.println(r.toString());
+            }
         }
 
+    }
+
+    static String retrieveHistoricData(String state) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < dateStamps.size(); i++) {
+            ArrayList<Place> list = history.get(dateStamps.get(i));
+            for (int s = 0; s < list.size(); s++) {
+                Place p = list.get(s);
+                if (state.equals(p.getProvince_State())) {
+                    sb.append(p.toString());
+                }
+            }
+        }
+        return sb.toString();
     }
 
     private static String trimExtension(String input) {
