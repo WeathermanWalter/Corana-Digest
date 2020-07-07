@@ -1,6 +1,6 @@
-package com.company;
+package Java.company;
 
-import CSVReader.FileRead;
+import Java.CSVReader.FileRead;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -8,7 +8,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
@@ -20,7 +19,7 @@ public class Main {
     static HashMap<String, ArrayList<Place>> history = new HashMap<String, ArrayList<Place>>();
 
     public static void main(String[] args) throws IOException {
-        //updateRepo();
+        updateRepo();
         readFile();
         assignPlaces();
         Place[] historicData = retrieveHistoricData("California");
@@ -29,12 +28,20 @@ public class Main {
     }
 
     static void updateRepo() {
+        //TODO properly update the Repo
+        /*
+        File f = new File("RAW data");
+        if(f.isDirectory()) {
+            File test = new File
+        }
+        */
         File f = new File("RAW data");
             try {
                 Git git = Git.cloneRepository()
                         .setURI("https://github.com/CSSEGISandData/COVID-19.git") //this is the covid repo, updated daily
                         .setDirectory(new File("RAW data")) //perhaps change it to f?
                         .call();
+
             } catch (GitAPIException e) {
                 e.printStackTrace();
                 System.out.println("Could not update from online, please check your internet connection");

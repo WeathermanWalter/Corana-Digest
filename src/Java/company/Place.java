@@ -1,4 +1,4 @@
-package com.company;
+package Java.company;
 
 
 public class Place {

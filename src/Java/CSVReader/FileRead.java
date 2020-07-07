@@ -1,4 +1,4 @@
-package CSVReader;
+package Java.CSVReader;
 
 import java.io.*;
 
