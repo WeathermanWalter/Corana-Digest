@@ -12,19 +12,37 @@ import java.util.*;
 
 public class Main {
     static ArrayList<String> dateStamps = new ArrayList<String>();
-    static ArrayList<Place> areas = new ArrayList<Place>(58);
+    static ArrayList<Place> current = new ArrayList<>(50);
     static Map<String, String> map = new HashMap<String, String>(); //assigns each csv to its time stamp
 
     //String = date
     static HashMap<String, ArrayList<Place>> history = new HashMap<String, ArrayList<Place>>();
 
     public static void main(String[] args) throws IOException {
-        updateRepo();
+        //updateRepo();
         readFile();
         assignPlaces();
-        Place[] historicData = retrieveHistoricData("California");
-        String newData = constructCSV(historicData);
-        writeToFile("California.csv", newData);
+
+
+        //Methods returning a string will always have a newline on it
+        String dates = getDates();
+        StringBuilder data = new StringBuilder();
+
+        for (Place i : current) {
+            data.append(getHistory(i.getProvince_State()));
+        }
+        writeToFile("CountryWideCases.csv", dates + data);
+
+        /*
+        String data = getHistory("California");
+        data += getHistory("Florida");
+        data += getHistory("New York");
+        data += getHistory("Nevada");
+        writeToFile("StateHistory.csv", dates + data);
+
+         */
+
+
     }
 
     static void updateRepo() {
@@ -75,7 +93,7 @@ public class Main {
     }
 
     private static void readFile() throws IOException {
-        File dir = new File("RAW data\\csse_covid_19_data\\csse_covid_19_daily_reports_us");
+        File dir = new File("RAW data/csse_covid_19_data/csse_covid_19_daily_reports_us");
 
         File readMe = new File(dir.getCanonicalFile() + "\\README.MD");
         if(readMe.delete()) System.out.println("README.MD deleted successfully");
@@ -107,6 +125,7 @@ public class Main {
             }
 
             String entry;
+            ArrayList<Place> areas = new ArrayList<Place>(58);
             while (true) {
                 entry = reader.getNextValue();
                 if (entry.equals("\n"))
@@ -141,15 +160,20 @@ public class Main {
             areas = new ArrayList<Place>();
         }
 
+        //assigning current
+        String d = dateStamps.get(dateStamps.size() - 1);
+        current= history.get(d);
+
+        /*
         //checking if history is correct
         for (int i = 0; i < history.size(); i++) {
             //System.out.println(i);
             ArrayList<Place> list = history.get(dateStamps.get(i));
             for (Place r : list) {
-                //System.out.println(r.toString());
+                System.out.println(r.getProvince_State());
             }
         }
-
+         */
     }
 
     static Place[] retrieveHistoricData(String state) {
@@ -167,16 +191,25 @@ public class Main {
     }
 
     static String constructCSV(Place... data) {
-        StringBuilder firstLine = new StringBuilder();
         StringBuilder secondLine = new StringBuilder();
-        firstLine.append(data[0].getFile());
         secondLine.append(data[0].getConfirmed());
         for (int i = 1; i < data.length; i++) {
-            firstLine.append("," + data[i].getFile());
             secondLine.append("," + data[i].getConfirmed());
         }
-        firstLine.append("\n");
-        return firstLine.toString() + secondLine.toString();
+        return secondLine.toString() + "\n";
+    }
+
+    static String getHistory(String state) {
+        Place[] historicData = retrieveHistoricData(state);
+        return state + "," + constructCSV(historicData);
+    }
+
+    static String getDates() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < dateStamps.size(); i++) {
+            sb.append("," + dateStamps.get(i));
+        }
+        return sb.toString() + "\n";
     }
 
     static void writeToFile(String title, String data) {
